@@ -1,0 +1,111 @@
+h3,
+p {
+  margin: 0;
+}
+.chat {
+  flex: 0.7;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.Toastify__toast {
+  font-size: 14px;
+  min-height: 30px !important;
+  max-height: 80px !important;
+  top: 60px;
+}
+
+/* Start: Chat Header */
+.chat__header {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+/* End: Chat Header */
+
+/* Start: Chat Body */
+.chat__body {
+  flex: 1;
+  background: linear-gradient(-45deg, #ffffff, #f2615a, #ec9692, #ffffff);
+  background-size: 400% 400%;
+  animation: gradient 5s ease infinite;
+  background-position: center;
+  padding: 40px 90px 0px 90px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.chat__body_loading {
+  display: table;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+.chat__body_loading > div {
+  display: table-cell;
+  vertical-align: middle;
+  color: #4a4a4a;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #de5751;
+}
+.chat__body-2::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #737272;
+  border: 1px solid #000;
+}
+/* End: Chat Body */
+
+@media screen and (max-width: 600px) {
+  .chat {
+    flex: 1;
+    height: 93vh;
+    width: 100vw;
+  }
+  .Toastify__toast {
+    font-size: 12px;
+    min-height: 30px !important;
+    max-height: 50px !important;
+    max-width: 80vw;
+    margin-top: 20px !important;
+    margin: 0 auto;
+  }
+
+  /* Start: Chat Header */
+  .chat__header {
+    padding: 6px;
+    padding-bottom: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: #3a3e4a;
+  }
+  /* End: Chat Header */
+
+  /* Start: Chat Body */
+  .chat__body {
+    padding: 40px 12px 40px 12px !important;
+  }
+  /* End: Chat Body */
+}
+
+@media screen and (max-width: 600px) {
+  .chat__body {
+    padding: 40px 30px 00px 30px;
+  }
+}

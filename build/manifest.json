@@ -1,0 +1,28 @@
+{
+  "app_name": "Tattle",
+  "short_name": "Tattle",
+  "theme_color": "#3a3e4a",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope":"/",
+  "start_url": "/",
+  "description": "Tattle is driven by a fascination for communication technology that was once viewed as a passing trend.",
+  "icons": [
+    {
+      "src":"maskable.png",
+      "type": "image/png",
+      "sizes": "640x640",
+      "purpose":"any maskable"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
