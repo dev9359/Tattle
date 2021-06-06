@@ -24,7 +24,7 @@ import PersonIcon from "@material-ui/icons/Person";
 //importing styles
 import "emoji-mart/css/emoji-mart.css";
 import "./ChatFooter.css";
-
+import CryptoJS from "crypto-js";
 const attachFileLists = [
   {
     title: "Room",
@@ -131,7 +131,7 @@ function ChatFooter({ roomName, roomId, db, firebase, storage }) {
   };
 
   const onEnterPress = (e) => {
-    if (e.keyCode === 13 && e.shiftKey === false) {
+    if (e.keyCode === 13) {
       e.preventDefault();
 
       const youtubeLink =
@@ -212,7 +212,10 @@ function ChatFooter({ roomName, roomId, db, firebase, storage }) {
             .doc(roomId)
             .collection("messages")
             .add({
-              message: input,
+              message: CryptoJS.AES.encrypt(
+                input,
+                "my-secret-key@123"
+              ).toString(),
               name: user.displayName,
               uid: user.uid,
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),

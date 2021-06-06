@@ -26,7 +26,7 @@ function Login() {
   return (
     <div className="login">
       <div className="login__container">
-        <img src={Logo} alt="Tattle Logo" />
+        <img rel="preload" src={Logo} alt="Tattle Logo" />
         <div className="login__text">
           <h2>Keeps you Connected</h2>
           <br></br>

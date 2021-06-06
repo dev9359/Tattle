@@ -7,6 +7,7 @@ import AlarmIcon from "@material-ui/icons/Alarm";
 import DoneIcon from "@material-ui/icons/Done";
 //importing styles
 import "./ChatBody.css";
+import decrypt from "./crypto";
 
 function ChatBody({
   roomOwner,
@@ -44,8 +45,7 @@ function ChatBody({
   return (
     <div>
       <p className="chat__message_reminder">
-        <NoEncryptionIcon /> Welcome to Tattle. Messages are not
-        encrpyted.
+        <NoEncryptionIcon /> Welcome to Tattle. Messages are not encrpyted.
       </p>
       <p className="chat__message_reminder chat__createdBy">
         {roomOwner === user.uid
@@ -77,11 +77,7 @@ function ChatBody({
           <div className="chat__body_image_container">
             {message.photo ? (
               <>
-                <img
-                  alt=""
-                  className="chat__body_image"
-                  src={message.photo}
-                />
+                <img alt="" className="chat__body_image" src={message.photo} />
               </>
             ) : null}
           </div>
@@ -116,7 +112,7 @@ function ChatBody({
                 "chat__message_box_text_no_caption"
               } `}
             >
-              {message.message ? message.message : null}
+              {message.message ? decrypt(message.message) : null}
               {message.caption ? message.caption : null}
               {message.url ? (
                 <a
