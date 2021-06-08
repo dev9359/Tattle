@@ -14,7 +14,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 //importing material-ui-icons
 import CloseIcon from "@material-ui/icons/Close";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
-import MicIcon from "@material-ui/icons/Mic";
+import SendIcon from "@material-ui/icons/Send";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
 import PhotoIcon from "@material-ui/icons/Photo";
@@ -91,14 +91,14 @@ function ChatFooter({ roomName, roomId, db, firebase, storage }) {
     setEmoji(false);
   };
 
-  const voiceMessage = () => {
-    const voiceMessageToastId = "voiceMessage";
-    toastInfo(
-      "Voice Message is not yet available!",
-      voiceMessageToastId,
-      "top-center"
-    );
-  };
+  // const voiceMessage = () => {
+  //   const voiceMessageToastId = "voiceMessage";
+  //   toastInfo(
+  //     "Voice Message is not yet available!",
+  //     voiceMessageToastId,
+  //     "top-center"
+  //   );
+  // };
 
   const onFileChange = async (e) => {
     const fileSizeToastId = "fileSizeToastId";
@@ -263,7 +263,7 @@ function ChatFooter({ roomName, roomId, db, firebase, storage }) {
         <Hidden only={["xs"]}>
           <TooltipCustom
             name="Close"
-            icon={<CloseIcon />}
+            icon={<CloseIcon style={{ color: "#de5751" }} />}
             onClick={() => handleEmoticonsClose()}
           />
         </Hidden>
@@ -271,7 +271,7 @@ function ChatFooter({ roomName, roomId, db, firebase, storage }) {
 
       <TooltipCustom
         name="Emoticons"
-        icon={<InsertEmoticonIcon />}
+        icon={<InsertEmoticonIcon style={{ color: "#de5751" }} />}
         onClick={() => handleEmoticons()}
       />
 
@@ -291,7 +291,7 @@ function ChatFooter({ roomName, roomId, db, firebase, storage }) {
       <div>
         <TooltipCustom
           name="Attach"
-          icon={<AttachFileIcon />}
+          icon={<AttachFileIcon style={{ color: "#de5751" }} />}
           onClick={attachFile}
         />
         {showAttachFile ? (
@@ -349,9 +349,10 @@ function ChatFooter({ roomName, roomId, db, firebase, storage }) {
       </form>
 
       <TooltipCustom
-        name="Voice Message"
-        icon={<MicIcon />}
-        onClick={() => voiceMessage()}
+        name="Send Message"
+        onChange={(e) => setInput(e.target.value)}
+        icon={<SendIcon style={{ color: "#de5751" }} />}
+        onClick={onEnterPress}
       />
     </s.chatfooter_height>
   );

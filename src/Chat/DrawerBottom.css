@@ -15,7 +15,7 @@
   margin: 0 10px 0 10px;
 }
 .drawerBottom__content {
-  background-color: #4c5162 ;
+  background-color: #4c5162;
   height: 100%;
 }
 .drawerBottom__content_photo {
@@ -51,19 +51,19 @@
 }
 .drawerBottom__content_caption > input {
   width: 100%;
-  background-color: #e6e6e6;
+  background-color: #4c5162;
   outline: 0;
   border-width: 0 0 2px;
-  border-color: #00bfa5;
+  border-color: #de5751;
   padding: 5px 0 5px 0;
   font-size: 14px;
-  color: gray;
+  color: #f0706a;
 }
 .drawerBottom__footer {
   align-items: center;
   align-content: center;
   height: 140px;
-  background-color: #d9d9d9;
+  background-color: #686b74;
   padding: 20px 50px 20px 50px;
   text-align: center;
 }
@@ -77,19 +77,26 @@
 
 @media screen and (max-width: 600px) {
   .drawerBottom__content_photo > img {
-    max-height: 150px;
+    max-height: 250px;
     margin: 20px 0 20px 0;
   }
   .drawerBottom__content_caption {
-    margin: 20px 40px 20px 20px;
+    margin: 70px 40px 20px 20px;
   }
   .drawerBottom__content {
     flex: 1;
-    background-color: #e6e6e6;
+    background-color: #4c5162;
     height: 100vh;
   }
   .drawerBottom__footer {
-    height: 140px;
+    height: 150px;
     padding: 20px 50px 00px 50px;
+  }
+  .drawerBottom__content_caption > input {
+    width: 85%;
+  }
+  .drawerBottom__content_caption > .MuiFab-root {
+    right: 20px;
+    bottom: 155px;
   }
 }

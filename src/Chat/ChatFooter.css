@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: 1s;
+  transition: 0.1s;
 }
 .chat__footer > form {
   flex: 1;
@@ -27,7 +27,7 @@
 }
 .chat__footer > .MuiSvgIcon-root {
   padding: 10px;
-  color: #f0706a;
+  fill: #f0706a;
 }
 
 .chat__footer_emoji {
@@ -122,7 +122,7 @@
     background-color: #3a3e4a !important;
   }
   .chat__footer > .MuiSvgIcon-root {
-    color: gray !important;
+    color: #de5751 !important;
   }
   .emoji-mart {
     position: absolute !important;

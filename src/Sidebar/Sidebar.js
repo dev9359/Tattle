@@ -187,7 +187,7 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
           <NewChat db={db} user={user} firebase={firebase} />
           <TooltipCustom
             name="Menu"
-            icon={<MoreVertIcon />}
+            icon={<MoreVertIcon style={{ color: "#de5751" }} />}
             onClick={handleMenuOpen}
           />
           <DropdownMenu

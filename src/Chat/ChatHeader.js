@@ -228,7 +228,7 @@ function ChatHeader({
         <Link to="/">
           <div className="chat__back_button">
             <IconButton>
-              <ArrowBackIcon />
+              <ArrowBackIcon style={{ color: "#de5751" }} />
             </IconButton>
           </div>
         </Link>
@@ -252,12 +252,12 @@ function ChatHeader({
       <div className="chat__headerRight">
         <TooltipCustom
           name="Search"
-          icon={<SearchOutlinedIcon />}
+          icon={<SearchOutlinedIcon style={{ color: "#de5751" }} />}
           onClick={searchMessage}
         />
         <TooltipCustom
           name="Menu"
-          icon={<MoreVertIcon />}
+          icon={<MoreVertIcon style={{ color: "#de5751" }} />}
           onClick={handleMenuOpen}
         />
         <DropdownMenu
