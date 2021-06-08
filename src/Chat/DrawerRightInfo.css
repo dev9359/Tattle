@@ -11,11 +11,11 @@
   align-items: center;
 }
 .drawer-right-info > .MuiIconButton-root {
-  color: black;
+  color: #de5751;
   font-size: 18px;
 }
 .drawer-right-info > p {
-  color: black;
+  color: #de5751;
   font-weight: 400;
   font-size: 16px;
   margin-left: 10px;
@@ -207,7 +207,7 @@
 
 @media screen and (max-width: 600px) {
   .drawer-right-info__header {
-    background-color: #045e54;
+    background-color: #3a3e4a;
   }
   .drawer-right-info__headers > p {
     color: white;

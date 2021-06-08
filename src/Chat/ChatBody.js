@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 // importing component
 //importing material-ui-icon
-import NoEncryptionIcon from "@material-ui/icons/NoEncryption";
+import LockIcon from "@material-ui/icons/Lock";
 import AlarmIcon from "@material-ui/icons/Alarm";
 import DoneIcon from "@material-ui/icons/Done";
 //importing styles
@@ -51,7 +51,7 @@ function ChatBody({
   return (
     <div>
       <p className="chat__message_reminder">
-        <NoEncryptionIcon /> Welcome to Tattle. Messages are encrpyted.
+        <LockIcon /> Welcome to Tattle. Messages are encrpyted.
       </p>
       <p className="chat__message_reminder chat__createdBy">
         {roomOwner === user.uid

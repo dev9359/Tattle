@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 //importing components
-import SearchBar from "../shared/SearchBar";
+// import SearchBar from "../shared/SearchBar";
 //importing material-ui
 import DrawerRight from "./DrawerRight";
 import IconButton from "@material-ui/core/IconButton";
 import Zoom from "@material-ui/core/Zoom";
-import Drawer from "@material-ui/core/Drawer";
+// import Drawer from "@material-ui/core/Drawer";
 import Avatar from "@material-ui/core/Avatar";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import { makeStyles } from "@material-ui/core/styles";
-import Divider from "@material-ui/core/Divider";
+// import Dialog from "@material-ui/core/Dialog";
+// import DialogTitle from "@material-ui/core/DialogTitle";
+// import DialogContent from "@material-ui/core/DialogContent";
+// import DialogActions from "@material-ui/core/DialogActions";
+// import { makeStyles } from "@material-ui/core/styles";
+// import Divider from "@material-ui/core/Divider";
 //importing material-ui-icons
 import CloseIcon from "@material-ui/icons/Close";
-import DoneIcon from "@material-ui/icons/Done";
+// import DoneIcon from "@material-ui/icons/Done";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import GroupIcon from "@material-ui/icons/Group";
 //importing styles
