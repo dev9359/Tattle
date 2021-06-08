@@ -3,7 +3,7 @@ import { auth, provider } from "./firebase";
 import { toastInfo } from "./shared/toastInfo";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import GoogleLogo from "./images/Google G Logo.png";
-import Logo from "./images/logo.png";
+import Logo from "./images/logo.webp";
 import "./Login.css";
 
 function Login() {

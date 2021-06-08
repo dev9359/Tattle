@@ -14,7 +14,7 @@ function ChatLandingScreen({ showLandingScreenPhoto }) {
         >
           <img
             className="chat-landing-screen__photo"
-            src="https://firebasestorage.googleapis.com/v0/b/tattle-9359.appspot.com/o/Folder%2Flogo.png?alt=media&token=21118386-5406-44a2-988e-0644a08c5b83"
+            src="https://firebasestorage.googleapis.com/v0/b/tattle-9359.appspot.com/o/Folder%2Flogo.webp?alt=media&token=c0d6ec1c-5261-4864-a820-539a731fb7d1"
             alt="TattleLogo"
           />
         </Zoom>
@@ -26,7 +26,8 @@ function ChatLandingScreen({ showLandingScreenPhoto }) {
 
       <div>
         <p>
-        Tattle is driven by a fascination for mobile technology that was once viewed as a passing trend.
+          Tattle is driven by a fascination for mobile technology that was once
+          viewed as a passing trend.
         </p>
       </div>
 

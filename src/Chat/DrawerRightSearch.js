@@ -10,6 +10,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import DoneIcon from "@material-ui/icons/Done";
 //importing styles
 import "./DrawerRightSearch.css";
+const CryptoJS = require("crypto-js");
 
 function DrawerRightSearch({
   drawerRightSearch,
@@ -29,14 +30,22 @@ function DrawerRightSearch({
       );
     };
   };
-
+  const decrypt = (data) => {
+    const bytes = CryptoJS.AES.decrypt(data, "my-secret-key@123");
+    const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+    // return decryptedData
+    return data ? decryptedData : data;
+  };
+  const encrypt = (data) => {
+    const text = CryptoJS.AES.encrypt(data, "my-secret-key@123").toString();
+  };
   useEffect(() => {
     const messageResult = () => {
       return (
         <>
           {messages.filter(findMessage(search)).map((message) => (
             <p key={message.id}>
-              {message.message}
+              {message.message ? decrypt(message.message) : ""}
               {message.caption}
             </p>
           ))}
@@ -108,7 +117,7 @@ function DrawerRightSearch({
                           </p>
                           <p id="last_p">
                             {message.uid === user.uid ? <DoneIcon /> : null}
-                            {message.message}
+                            {message.message ? decrypt(message.message) : ""}
                             {message.caption}
                           </p>
                           <Divider />

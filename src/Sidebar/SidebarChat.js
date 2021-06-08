@@ -5,7 +5,8 @@ import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import db from "../firebase";
 import "./SidebarChat.css";
-import decrypt from "../Chat/crypto";
+const CryptoJS = require("crypto-js");
+
 function SidebarChat({ id, name }) {
   const [messages, setMessages] = useState([]);
 
@@ -20,7 +21,12 @@ function SidebarChat({ id, name }) {
         );
     }
   }, [id]);
-
+  const decrypt = (data) => {
+    const bytes = CryptoJS.AES.decrypt(data, "my-secret-key@123");
+    const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+    // return decryptedData
+    return data ? decryptedData : data;
+  };
   return (
     <Link to={`/rooms/${id}`} className="sidebarChat__link">
       <div className="sidebarChat">
@@ -37,7 +43,7 @@ function SidebarChat({ id, name }) {
               <VideocamIcon /> <span>Video</span>
             </div>
           ) : null}
-          <p>{decrypt(messages[0]?.message)}</p>
+          <p>{messages[0]?.message ? decrypt(messages[0]?.message) : ""}</p>
           <p>{messages[0]?.url}</p>
         </div>
       </div>

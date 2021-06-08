@@ -24,7 +24,9 @@ import PersonIcon from "@material-ui/icons/Person";
 //importing styles
 import "emoji-mart/css/emoji-mart.css";
 import "./ChatFooter.css";
+import * as s from "./preview.style";
 import CryptoJS from "crypto-js";
+
 const attachFileLists = [
   {
     title: "Room",
@@ -243,7 +245,7 @@ function ChatFooter({ roomName, roomId, db, firebase, storage }) {
   };
 
   return (
-    <div className="chat__footer">
+    <s.chatfooter_height drawerBottom={drawerBottom} className="chat__footer">
       <DrawerBottom
         drawerBottom={drawerBottom}
         setDrawerBottom={setDrawerBottom}
@@ -351,7 +353,7 @@ function ChatFooter({ roomName, roomId, db, firebase, storage }) {
         icon={<MicIcon />}
         onClick={() => voiceMessage()}
       />
-    </div>
+    </s.chatfooter_height>
   );
 }
 

@@ -7,7 +7,7 @@ import AlarmIcon from "@material-ui/icons/Alarm";
 import DoneIcon from "@material-ui/icons/Done";
 //importing styles
 import "./ChatBody.css";
-import decrypt from "./crypto";
+const CryptoJS = require("crypto-js");
 
 function ChatBody({
   roomOwner,
@@ -17,6 +17,12 @@ function ChatBody({
   roomId,
   isRoomExist,
 }) {
+  const decrypt = (data) => {
+    const bytes = CryptoJS.AES.decrypt(data, "my-secret-key@123");
+    const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+    // return decryptedData
+    return data ? decryptedData : data;
+  };
   const messagesEndRef = useRef(null);
   const [playing, setPlaying] = useState(false);
 
@@ -45,7 +51,7 @@ function ChatBody({
   return (
     <div>
       <p className="chat__message_reminder">
-        <NoEncryptionIcon /> Welcome to Tattle. Messages are not encrpyted.
+        <NoEncryptionIcon /> Welcome to Tattle. Messages are encrpyted.
       </p>
       <p className="chat__message_reminder chat__createdBy">
         {roomOwner === user.uid

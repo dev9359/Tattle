@@ -9,7 +9,6 @@
 .drawerRight__header_container {
   display: flex;
   align-items: center;
-  /* margin-top: 50px; */
 }
 .drawerRight__header > .MuiIconButton-root {
   color: #f0706a;
@@ -54,10 +53,10 @@
   scrollbar-width: none;
   background-color: #3a3e4a;
   flex: 1;
-  /* padding: 50px; */
+  padding: 50px;
   text-align: center;
-  /* min-width: 240px;*/
-  width: 250px;  
+  min-width: 240px;
+  width: 250px;
 }
 .drawerRight__content > p {
   color: gray;
@@ -67,8 +66,8 @@
 }
 .drawerRight__content_searched {
   padding: 0;
-  /* min-width: 240px;
-  max-width: 340px; */
+  min-width: 240px;
+  max-width: 340px;
 }
 .drawerRight__content_searched_message {
   margin: 10px 0 10px 0;
@@ -149,6 +148,6 @@
     background-color: #3a3e4a;
   }
   .drawerRight__header > p {
-    color: #f0706a ;
+    color: #f0706a;
   }
 }
