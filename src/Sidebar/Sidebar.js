@@ -3,13 +3,13 @@ import { useHistory, useParams } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
 //importing firebase
 import db from "../firebase";
-import { auth, storage, firebase } from "../firebase";
+import { auth, storage } from "../firebase";
 //importing components
 import UserAvatar from "./UserAvatar";
-import NewChat from "./NewChat";
-import Status from "./Status";
+import ChatIcon from "@material-ui/icons/Chat";
 import DropdownMenu from "../shared/DropdownMenu";
 import DrawerLeft from "./DrawerLeft";
+import Drawer2 from "./Drawer2";
 import SearchBar from "../shared/SearchBar";
 import SidebarChat from "./SidebarChat";
 import { toastInfo } from "../shared/toastInfo";
@@ -24,10 +24,12 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
   const history = useHistory();
   const { roomId } = useParams();
   const [{ user }] = useStateValue();
+
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [noRooms, setNoRooms] = useState(false);
   const [drawerLeft, setDrawerLeft] = useState(false);
+  const [drawer2, setDrawer2] = useState(false);
   const [menuSidebar, setMenuSidebar] = useState(null);
   const [isSearchFound, setIsSetSearchFound] = useState(false);
 
@@ -98,7 +100,10 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
     setMenuSidebar(null);
     setDrawerLeft(true);
   };
-
+  const handleDrawer2Open = () => {
+    setMenuSidebar(null);
+    setDrawer2(true);
+  };
   const handleMenuOpen = (event) => {
     setMenuSidebar(event.currentTarget);
   };
@@ -183,8 +188,18 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
         />
 
         <div className="sidebar__headerRight">
-          <Status />
-          <NewChat db={db} user={user} firebase={firebase} />
+          <Drawer2
+            drawer2={drawer2}
+            setDrawer2={setDrawer2}
+            db={db}
+            auth={auth}
+            storage={storage}
+          />
+          <TooltipCustom
+            icon={<ChatIcon style={{ color: "#de5751" }} />}
+            name="New Chat"
+            onClick={() => handleDrawer2Open()}
+          />
           <TooltipCustom
             name="Menu"
             icon={<MoreVertIcon style={{ color: "#de5751" }} />}
@@ -233,6 +248,7 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
                     key={room.id}
                     id={room.id}
                     name={room.data.name}
+                    owner={room.data.roomOwner}
                   />
                 ))}
               </>

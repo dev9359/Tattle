@@ -51,7 +51,7 @@ function App() {
         if (authUser.isAnonymous === true && authUser.displayName === null) {
           var anonymousName =
             // eslint-disable-next-line no-useless-concat
-            "Anonymous" + " " + Math.floor(Math.random() * 1000000);
+            "anonymous" + Math.floor(Math.random() * 1000000);
 
           auth.currentUser.updateProfile({
             displayName: anonymousName,
@@ -65,6 +65,7 @@ function App() {
               about: "Hey there! I am using Tattle.",
               photoURL: "https://avatars.dicebear.com/api/human/ugtjh.svg",
               role: "anonymous",
+              email: anonymousName + "@anonymous.com",
               dateJoined: firebase.firestore.FieldValue.serverTimestamp(),
             })
             .then(function () {
@@ -94,6 +95,7 @@ function App() {
                   about: "Hey there! I am using Tattle.",
                   photoURL: user.photoURL,
                   role: "regular",
+                  email: authUser.email,
                   dateJoined: firebase.firestore.FieldValue.serverTimestamp(),
                 });
               }
@@ -119,6 +121,7 @@ function App() {
                   about: "Hey there! I am using Tattle.",
                   photoURL: "",
                   role: "regular",
+                  email: authUser.email,
                   dateJoined: firebase.firestore.FieldValue.serverTimestamp(),
                 });
               }
@@ -141,7 +144,7 @@ function App() {
   return (
     <div className={`app ${loading === false && "app-no-bg"}`}>
       {loading ? (
-      <>
+        <>
           <ToastContainer
             position="top-center"
             autoClose={5000}

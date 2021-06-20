@@ -1,14 +1,10 @@
 import React from "react";
-import TooltipCustom from "../shared/TooltipCustom";
-import DonutLargeIcon from "@material-ui/icons/DonutLarge";
+import ChatIcon from "@material-ui/icons/Chat";
 
-function Status() {
+function Status({ onClick }) {
   return (
-    <div>
-      <TooltipCustom
-        name="Status"
-        icon={<DonutLargeIcon style={{ color: "#de5751" }} />}
-      />
+    <div style={{ cursor: "pointer" }}>
+      <ChatIcon style={{ color: "#de5751" }} onClick={onClick} />
     </div>
   );
 }

@@ -5,8 +5,9 @@ import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import db from "../firebase";
 import "./SidebarChat.css";
-const CryptoJS = require("crypto-js");
+// console.log(use.uid);
 
+const CryptoJS = require("crypto-js");
 function SidebarChat({ id, name }) {
   const [messages, setMessages] = useState([]);
 

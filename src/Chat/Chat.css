@@ -1,6 +1,7 @@
 h3,
 p {
   margin: 0;
+  color: #de5751;
 }
 .chat {
   flex: 0.7;
