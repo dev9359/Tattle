@@ -22,9 +22,7 @@
 .chat__footer > form > textarea:focus {
   outline: none;
 }
-.chat__footer > form > button {
-  /* display: none; */
-}
+
 .chat__footer > .MuiSvgIcon-root {
   padding: 10px;
   fill: #f0706a;
@@ -100,8 +98,15 @@
   z-index: 1000;
   overflow: hidden;
 }
+
+.chat__attachFile .MuiFab-primary:hover {
+  background-color: #51545f;
+}
+
 .chat__attachFile > .MuiFab-root {
   margin: 7px 0 7px 0;
+  color: #de5751;
+  background-color: #3a3e4a;
 }
 .chat__icon {
   height: 24px;
@@ -130,5 +135,10 @@
   }
   .emoji-mart-category-label {
     top: -3px;
+  }
+  @media (hover: none) {
+  }
+  .chat__attachFile .MuiFab-primary:hover {
+    background-color: #51545f;
   }
 }

@@ -31,6 +31,7 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
   const [drawerLeft, setDrawerLeft] = useState(false);
   const [drawer2, setDrawer2] = useState(false);
   const [menuSidebar, setMenuSidebar] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [isSearchFound, setIsSetSearchFound] = useState(false);
 
   const findRoom = function (myRooms) {
@@ -62,21 +63,17 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
       }
     }
 
-    //checks if room exists, else will be redirect to landing screen
     var roomList = rooms;
     if (roomList) {
-      //checks if the current route(roomId) exists in roomList(array)
       const index = roomList.findIndex(function (id, index) {
         return id.id === roomId;
       });
 
       if (index >= 0) {
         setIsRoomExist(index);
-        // console.log("ROOM EXISTS");
       } else if (index === -1) {
         setIsRoomExist(index);
         history.push("/");
-        // console.log("ROOM DOES NOT EXIST");
       }
     }
   }, [search, rooms, roomId, history, setIsRoomExist]);
@@ -93,8 +90,15 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
     }
   }, [isRoomExist, rooms]);
 
-  // console.log("ROOMS> >", noRooms);
-  // console.log("ROOMS EXIST> >", isRoomExist);
+  useEffect(() => {
+    fetchUser();
+  }, [userData]);
+
+  const fetchUser = () => {
+    db.collection("users").onSnapshot((snapshot) =>
+      setUserData(snapshot.docs.map((doc) => doc.data()))
+    );
+  };
 
   const handleDrawerLeftOpen = () => {
     setMenuSidebar(null);
@@ -191,6 +195,7 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
           <Drawer2
             drawer2={drawer2}
             setDrawer2={setDrawer2}
+            userData={userData}
             db={db}
             auth={auth}
             storage={storage}

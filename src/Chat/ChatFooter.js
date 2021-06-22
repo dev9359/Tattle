@@ -239,7 +239,7 @@ function ChatFooter({ roomName, roomId, db, firebase, storage }) {
     setEmoji(false);
   };
   const onEnterPress = (e) => {
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
 
       const youtubeLink =

@@ -13,6 +13,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 //importing styles
 import "./Drawer2.css";
+import SidebarUserList from "./SiderbarUserList";
 // import "./Sidebar.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,78 +25,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Drawer2({ drawer2, setDrawer2, rooms, setIsRoomExist, isRoomExist }) {
+function Drawer2({
+  drawer2,
+  setDrawer2,
+  rooms,
+  setIsRoomExist,
+  isRoomExist,
+  userData,
+}) {
   const classes = useStyles();
-  const history = useHistory();
-  const { roomId } = useParams();
 
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [noRooms, setNoRooms] = useState(false);
-  const [isSearchFound, setIsSetSearchFound] = useState(false);
-
-  const findRoom = function (myRooms) {
-    return function (x) {
-      var searchRoom = x.data.name + "";
-      return (
-        searchRoom.toLowerCase().includes(myRooms.toLowerCase()) || !myRooms
-      );
-    };
-  };
-
-  useEffect(() => {
-    const roomResult = () => {
-      return (
-        <>
-          {rooms.filter(findRoom(search)).map((room) => (
-            <p key={room.id}>{room.name}</p>
-          ))}
-        </>
-      );
-    };
-
-    if (search) {
-      var result = roomResult();
-      if (result.props.children.length > 0) {
-        setIsSetSearchFound(true);
-      } else {
-        setIsSetSearchFound(false);
-      }
-    }
-
-    //checks if room exists, else will be redirect to landing screen
-    var roomList = rooms;
-    if (roomList) {
-      //checks if the current route(roomId) exists in roomList(array)
-      const index = roomList.findIndex(function (id, index) {
-        return id.id === roomId;
-      });
-
-      if (index >= 0) {
-        setIsRoomExist(index);
-        // console.log("ROOM EXISTS");
-      } else if (index === -1) {
-        setIsRoomExist(index);
-        history.push("/");
-        // console.log("ROOM DOES NOT EXIST");
-      }
-    }
-  }, [search, rooms, roomId, history, setIsRoomExist]);
-
-  useEffect(() => {
-    if (rooms) {
-      if (rooms.length > 0) {
-        setNoRooms(false);
-        setLoading(true);
-      } else if (rooms.length === 0 && isRoomExist === -1) {
-        setNoRooms(true);
-        setLoading(true);
-      }
-    }
-  }, [isRoomExist, rooms]);
 
   const handleDrawerClose = () => {
     setDrawer2(false);
+  };
+
+  const findUser = function (myUsers) {
+    return function (x) {
+      var searchRoom = x.name + "";
+      return (
+        searchRoom.toLowerCase().includes(myUsers.toLowerCase()) || !myUsers
+      );
+    };
   };
 
   return (
@@ -120,37 +74,35 @@ function Drawer2({ drawer2, setDrawer2, rooms, setIsRoomExist, isRoomExist }) {
             setSearch={setSearch}
             placeholder="Search or start new chat"
           />
+          <div className="drawerLeft__not">
+            <span>Select or Search for your new friends here at Tattle.</span>
+          </div>
           <div className="sidebar__chats">
-            {loading ? (
+            {loading === false ? (
               <>
                 {search ? (
                   <>
-                    {isSearchFound ? (
-                      <div>
-                        {rooms.filter(findRoom(search)).map((room) => (
-                          <SidebarChat
-                            key={room.id}
-                            id={room.id}
-                            name={room.data.name}
-                          />
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="sidebar__chatsContainer_empty">
-                        <span>No chat room found</span>
-                      </div>
-                    )}
+                    <div>
+                      {userData ? (
+                        userData
+                          .filter(findUser(search))
+                          .map((user) => <SidebarUserList data={user} />)
+                      ) : (
+                        <div className="sidebar__chatsContainer_empty">
+                          <span>No Users searched found</span>
+                        </div>
+                      )}
+                    </div>
                   </>
                 ) : (
                   <>
-                    {rooms.map((room) => (
-                      <SidebarChat
-                        key={room.id}
-                        id={room.id}
-                        name={room.data.name}
-                        owner={room.data.roomOwner}
-                      />
-                    ))}
+                    {userData ? (
+                      userData.map((user) => <SidebarUserList data={user} />)
+                    ) : (
+                      <div className="sidebar__chatsContainer_empty">
+                        <span>No Users found</span>
+                      </div>
+                    )}
                   </>
                 )}
               </>

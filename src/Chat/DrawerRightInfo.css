@@ -138,7 +138,7 @@
   font-size: 20px !important;
   cursor: pointer;
 }
-.drawerLeft__note {
+/* .drawerLeft__note {
   height: 50px;
   background-color: #ededed;
   padding: 0 40px 28px 30px;
@@ -146,7 +146,7 @@
 .drawerLeft__note > span {
   font-size: 14px;
   color: #adadad;
-}
+} */
 .MuiDialogContent-root {
   margin: 0 auto;
   padding: 0 24px !important;

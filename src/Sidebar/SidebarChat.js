@@ -12,6 +12,10 @@ function SidebarChat({ id, name }) {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    fetchRooms();
+  }, [id]);
+
+  const fetchRooms = () => {
     if (id) {
       db.collection("rooms")
         .doc(id)
@@ -21,7 +25,8 @@ function SidebarChat({ id, name }) {
           setMessages(snapshot.docs.map((doc) => doc.data()))
         );
     }
-  }, [id]);
+  };
+
   const decrypt = (data) => {
     const bytes = CryptoJS.AES.decrypt(data, "my-secret-key@123");
     const decryptedData = bytes.toString(CryptoJS.enc.Utf8);

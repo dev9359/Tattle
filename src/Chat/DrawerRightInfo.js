@@ -33,7 +33,7 @@ function DrawerRightInfo({
               <IconButton onClick={handleDrawerClose}>
                 <CloseIcon style={{ color: "#de5751" }} />
               </IconButton>
-              <p>Group Info</p>
+              <p style={{ color: "#de5751" }}>Contact Info</p>
             </div>
             <div className="drawer-right-info-content">
               <div className="drawer-right-info-content__photo">

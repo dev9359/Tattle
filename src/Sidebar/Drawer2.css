@@ -141,12 +141,13 @@
   font-size: 20px !important;
   cursor: pointer;
 }
-.drawerLeft__note {
-  height: 50px;
-  background-color: #ededed;
-  padding: 0 40px 28px 30px;
+.drawerLeft__not {
+  /* height: 20px; */
+  background-color: #3a3e4a;
+
+  padding: 0 39.5px 7px 30px;
 }
-.drawerLeft__note > span {
+.drawerLeft__not > span {
   font-size: 14px;
   color: #adadad;
 }
