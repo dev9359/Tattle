@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
 //importing components
-import DropdownMenu from "../shared/DropdownMenu";
-import DrawerRightSearch from "./DrawerRightSearch";
-import DrawerRightInfo from "./DrawerRightInfo";
-import TooltipCustom from "../shared/TooltipCustom";
+// import DropdownMenu from "../shared/DropdownMenu";
+// import DrawerRightSearch from "./DrawerRightSearch";
+// import DrawerRightInfo from "./DrawerRightInfo";
+// import TooltipCustom from "../shared/TooltipCustom";
 import { toastInfo } from "../shared/toastInfo";
 //importing material-ui
 import Hidden from "@material-ui/core/Hidden";
@@ -18,6 +18,10 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 //importing styles
 import "./ChatHeader.css";
 
+const DropdownMenu = React.lazy(() => import("../shared/DropdownMenu"));
+const DrawerRightSearch = React.lazy(() => import("./DrawerRightSearch"));
+const DrawerRightInfo = React.lazy(() => import("./DrawerRightInfo"));
+const TooltipCustom = React.lazy(() => import("../shared/TooltipCustom"));
 function ChatHeader({
   roomCreatedBy,
   roomOwner,
@@ -205,69 +209,71 @@ function ChatHeader({
   ];
 
   return (
-    <div className="chat__header">
-      <DrawerRightSearch
-        drawerRightSearch={drawerRightSearch}
-        setDrawerRightSearch={setDrawerRightSearch}
-        roomId={roomId}
-        messages={messages}
-        db={db}
-        user={user}
-      />
+    <React.Suspense fallback={<p>Loading</p>}>
+      <div className="chat__header">
+        <DrawerRightSearch
+          drawerRightSearch={drawerRightSearch}
+          setDrawerRightSearch={setDrawerRightSearch}
+          roomId={roomId}
+          messages={messages}
+          db={db}
+          user={user}
+        />
 
-      <DrawerRightInfo
-        drawerRightInfo={drawerRightInfo}
-        setDrawerRightInfo={setDrawerRightInfo}
-        roomId={roomId}
-        messages={messages}
-        db={db}
-        user={user}
-      />
+        <DrawerRightInfo
+          drawerRightInfo={drawerRightInfo}
+          setDrawerRightInfo={setDrawerRightInfo}
+          roomId={roomId}
+          messages={messages}
+          db={db}
+          user={user}
+        />
 
-      <Hidden smUp>
-        <Link to="/">
-          <div className="chat__back_button">
-            <IconButton>
-              <ArrowBackIcon style={{ color: "#de5751" }} />
-            </IconButton>
-          </div>
-        </Link>
-      </Hidden>
+        <Hidden smUp>
+          <Link to="/">
+            <div className="chat__back_button">
+              <IconButton>
+                <ArrowBackIcon style={{ color: "#de5751" }} />
+              </IconButton>
+            </div>
+          </Link>
+        </Hidden>
 
-      <Avatar>{roomName[0]}</Avatar>
-      <div className="chat__headerInfo">
-        <h3>{roomName}</h3>
+        <Avatar>{roomName[0]}</Avatar>
+        <div className="chat__headerInfo">
+          <h3>{roomName}</h3>
 
-        {isLastMessage ? (
-          <>
-            {showDate ? (
-              <p>Last seen {getDateFromMessage()}</p>
-            ) : (
-              <p>Last seen {getDateLocal()}</p>
-            )}
-          </>
-        ) : null}
+          {isLastMessage ? (
+            <>
+              {showDate ? (
+                <p>Last seen {getDateFromMessage()}</p>
+              ) : (
+                <p>Last seen {getDateLocal()}</p>
+              )}
+            </>
+          ) : null}
+        </div>
+
+        <div className="chat__headerRight">
+          <TooltipCustom
+            name="Search"
+            icon={<SearchOutlinedIcon style={{ color: "#de5751" }} />}
+            onClick={searchMessage}
+          />
+          <TooltipCustom
+            name="Menu"
+            icon={<MoreVertIcon style={{ color: "#de5751" }} />}
+            onClick={handleMenuOpen}
+          />
+          <DropdownMenu
+            menuLists={menuChatLists}
+            menu={menuChat}
+            handleMenuOpen={handleMenuOpen}
+            handleMenuClose={handleMenuClose}
+          />
+        </div>
       </div>
-
-      <div className="chat__headerRight">
-        <TooltipCustom
-          name="Search"
-          icon={<SearchOutlinedIcon style={{ color: "#de5751" }} />}
-          onClick={searchMessage}
-        />
-        <TooltipCustom
-          name="Menu"
-          icon={<MoreVertIcon style={{ color: "#de5751" }} />}
-          onClick={handleMenuOpen}
-        />
-        <DropdownMenu
-          menuLists={menuChatLists}
-          menu={menuChat}
-          handleMenuOpen={handleMenuOpen}
-          handleMenuClose={handleMenuClose}
-        />
-      </div>
-    </div>
+    </React.Suspense>
   );
 }
 

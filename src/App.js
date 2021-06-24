@@ -12,9 +12,9 @@ import { auth, firebase } from "./firebase";
 //importing actions
 import { setUser } from "./actions/userAction";
 //importing components
-import Login from "./Login";
-import Sidebar from "../src/Sidebar/Sidebar";
-import Chat from "../src/Chat/Chat";
+// import Login from "./Login";
+// import Sidebar from "../src/Sidebar/Sidebar";
+// import Chat from "../src/Chat/Chat";
 import { ToastContainer } from "react-toastify";
 import { toastInfo } from "./shared/toastInfo";
 //importing material-ui
@@ -25,6 +25,9 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
+const Login = React.lazy(() => import("./Login"));
+const Sidebar = React.lazy(() => import("../src/Sidebar/Sidebar"));
+const Chat = React.lazy(() => import("../src/Chat/Chat"));
 function App() {
   const [{ user }, dispatch] = useStateValue();
   const [rooms, setRooms] = useState([]);
@@ -142,71 +145,73 @@ function App() {
   }, [dispatch, user]);
 
   return (
-    <div className={`app ${loading === false && "app-no-bg"}`}>
-      {loading ? (
-        <>
-          <ToastContainer
-            position="top-center"
-            autoClose={5000}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-          />
-          {!user ? (
-            <Login />
-          ) : (
-            <div className="app__body">
-              <Router>
-                <Switch>
-                  <Route exact path="/">
-                    <Sidebar
-                      rooms={rooms}
-                      setIsRoomExist={setIsRoomExist}
-                      isRoomExist={isRoomExist}
-                    />
-                    <Hidden only={["xs"]}>
-                      {" "}
-                      {/* Chat component will be hidden in mobile view */}
-                      <Chat isRoomExist={isRoomExist} />
-                    </Hidden>
-                  </Route>
-
-                  <Route exact path="/rooms/:roomId">
-                    <Hidden only={["xs"]}>
-                      {" "}
-                      {/* Sidebar component will be hidden in mobile view */}
+    <React.Suspense fallback={<p>Loading</p>}>
+      <div className={`app ${loading === false && "app-no-bg"}`}>
+        {loading ? (
+          <>
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+            />
+            {!user ? (
+              <Login />
+            ) : (
+              <div className="app__body">
+                <Router>
+                  <Switch>
+                    <Route exact path="/">
                       <Sidebar
                         rooms={rooms}
                         setIsRoomExist={setIsRoomExist}
                         isRoomExist={isRoomExist}
                       />
-                    </Hidden>
-                    <Chat isRoomExist={isRoomExist} />
-                  </Route>
+                      <Hidden only={["xs"]}>
+                        {" "}
+                        {/* Chat component will be hidden in mobile view */}
+                        <Chat isRoomExist={isRoomExist} />
+                      </Hidden>
+                    </Route>
 
-                  <Route path="*">
-                    <Redirect to="/" />
-                  </Route>
-                </Switch>
-              </Router>
-            </div>
-          )}
-        </>
-      ) : (
-        <div className="app__loading">
-          <div>
-            <div className="app__loading_circular">
-              <CircularProgress />
-            </div>
-            <div className="app__loading_linear">
-              <LinearProgress />
+                    <Route exact path="/rooms/:roomId">
+                      <Hidden only={["xs"]}>
+                        {" "}
+                        {/* Sidebar component will be hidden in mobile view */}
+                        <Sidebar
+                          rooms={rooms}
+                          setIsRoomExist={setIsRoomExist}
+                          isRoomExist={isRoomExist}
+                        />
+                      </Hidden>
+                      <Chat isRoomExist={isRoomExist} />
+                    </Route>
+
+                    <Route path="*">
+                      <Redirect to="/" />
+                    </Route>
+                  </Switch>
+                </Router>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="app__loading">
+            <div>
+              <div className="app__loading_circular">
+                <CircularProgress />
+              </div>
+              <div className="app__loading_linear">
+                <LinearProgress />
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </React.Suspense>
   );
 }
 

@@ -5,21 +5,23 @@ import { useStateValue } from "../StateProvider";
 import db from "../firebase";
 import { auth, storage } from "../firebase";
 //importing components
-import UserAvatar from "./UserAvatar";
-import ChatIcon from "@material-ui/icons/Chat";
-import DropdownMenu from "../shared/DropdownMenu";
-import DrawerLeft from "./DrawerLeft";
-import Drawer2 from "./Drawer2";
-import SearchBar from "../shared/SearchBar";
-import SidebarChat from "./SidebarChat";
+
 import { toastInfo } from "../shared/toastInfo";
-import TooltipCustom from "../shared/TooltipCustom";
 //importing material-ui
 import CircularProgress from "@material-ui/core/CircularProgress";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 //importing styles
 import "./Sidebar.css";
 
+// const db = React.lazy(() => import("../firebase"));
+const UserAvatar = React.lazy(() => import("./UserAvatar"));
+const ChatIcon = React.lazy(() => import("@material-ui/icons/Chat"));
+const DropdownMenu = React.lazy(() => import("../shared/DropdownMenu"));
+const DrawerLeft = React.lazy(() => import("./DrawerLeft"));
+const Drawer2 = React.lazy(() => import("./Drawer2"));
+const SearchBar = React.lazy(() => import("../shared/SearchBar"));
+const SidebarChat = React.lazy(() => import("./SidebarChat"));
+const TooltipCustom = React.lazy(() => import("../shared/TooltipCustom"));
 function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
   const history = useHistory();
   const { roomId } = useParams();
@@ -171,109 +173,110 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
     {
       title: "Logout",
       onClick: () => logout(),
-      id: Math.random() * 100000,
     },
   ];
 
   return (
-    <div className="sidebar">
-      <div className="sidebar__header">
-        <UserAvatar
-          id="UserProfile"
-          photoURL={user.photoURL}
-          onClick={() => handleDrawerLeftOpen()}
-        />
-        <DrawerLeft
-          drawerLeft={drawerLeft}
-          setDrawerLeft={setDrawerLeft}
-          db={db}
-          auth={auth}
-          storage={storage}
-        />
-
-        <div className="sidebar__headerRight">
-          <Drawer2
-            drawer2={drawer2}
-            setDrawer2={setDrawer2}
-            userData={userData}
+    <React.Suspense fallback={<p>Loading</p>}>
+      <div className="sidebar">
+        <div className="sidebar__header">
+          <UserAvatar
+            id="UserProfile"
+            photoURL={user.photoURL}
+            onClick={() => handleDrawerLeftOpen()}
+          />
+          <DrawerLeft
+            drawerLeft={drawerLeft}
+            setDrawerLeft={setDrawerLeft}
             db={db}
             auth={auth}
             storage={storage}
           />
-          <TooltipCustom
-            icon={<ChatIcon style={{ color: "#de5751" }} />}
-            name="New Chat"
-            onClick={() => handleDrawer2Open()}
-          />
-          <TooltipCustom
-            name="Menu"
-            icon={<MoreVertIcon style={{ color: "#de5751" }} />}
-            onClick={handleMenuOpen}
-          />
-          <DropdownMenu
-            menuLists={menuLists}
-            menu={menuSidebar}
-            handleMenuOpen={handleMenuOpen}
-            handleMenuClose={handleMenuClose}
-          />
+
+          <div className="sidebar__headerRight">
+            <Drawer2
+              drawer2={drawer2}
+              setDrawer2={setDrawer2}
+              userData={userData}
+              db={db}
+              auth={auth}
+              storage={storage}
+            />
+            <TooltipCustom
+              icon={<ChatIcon style={{ color: "#de5751" }} />}
+              name="New Chat"
+              onClick={() => handleDrawer2Open()}
+            />
+            <TooltipCustom
+              name="Menu"
+              icon={<MoreVertIcon style={{ color: "#de5751" }} />}
+              onClick={handleMenuOpen}
+            />
+            <DropdownMenu
+              menuLists={menuLists}
+              menu={menuSidebar}
+              handleMenuOpen={handleMenuOpen}
+              handleMenuClose={handleMenuClose}
+            />
+          </div>
+        </div>
+
+        <SearchBar
+          search={search}
+          setSearch={setSearch}
+          placeholder="Search or start new chat"
+        />
+
+        <div className="sidebar__chats">
+          {loading ? (
+            <>
+              {search ? (
+                <>
+                  {isSearchFound ? (
+                    <div>
+                      {rooms.filter(findRoom(search)).map((room) => (
+                        <SidebarChat
+                          key={room.id}
+                          id={room.id}
+                          name={room.data.name}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="sidebar__chatsContainer_empty">
+                      <span>No chat room found</span>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {rooms.map((room) => (
+                    <SidebarChat
+                      key={room.id}
+                      id={room.id}
+                      name={room.data.name}
+                      owner={room.data.roomOwner}
+                    />
+                  ))}
+                </>
+              )}
+            </>
+          ) : (
+            <div className="sidebar__chatsContainer_loading">
+              <div>
+                <CircularProgress />
+              </div>
+            </div>
+          )}
+
+          {noRooms && loading ? (
+            <div className="sidebar__chatsContainer_empty">
+              <span>No chats</span>
+            </div>
+          ) : null}
         </div>
       </div>
-
-      <SearchBar
-        search={search}
-        setSearch={setSearch}
-        placeholder="Search or start new chat"
-      />
-
-      <div className="sidebar__chats">
-        {loading ? (
-          <>
-            {search ? (
-              <>
-                {isSearchFound ? (
-                  <div>
-                    {rooms.filter(findRoom(search)).map((room) => (
-                      <SidebarChat
-                        key={room.id}
-                        id={room.id}
-                        name={room.data.name}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="sidebar__chatsContainer_empty">
-                    <span>No chat room found</span>
-                  </div>
-                )}
-              </>
-            ) : (
-              <>
-                {rooms.map((room) => (
-                  <SidebarChat
-                    key={room.id}
-                    id={room.id}
-                    name={room.data.name}
-                    owner={room.data.roomOwner}
-                  />
-                ))}
-              </>
-            )}
-          </>
-        ) : (
-          <div className="sidebar__chatsContainer_loading">
-            <div>
-              <CircularProgress />
-            </div>
-          </div>
-        )}
-
-        {noRooms && loading ? (
-          <div className="sidebar__chatsContainer_empty">
-            <span>No chats</span>
-          </div>
-        ) : null}
-      </div>
-    </div>
+    </React.Suspense>
   );
 }
 

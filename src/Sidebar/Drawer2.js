@@ -6,8 +6,8 @@ import { useHistory, useParams } from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
-import SearchBar from "../shared/SearchBar";
-import SidebarChat from "./SidebarChat";
+// import SearchBar from "../shared/SearchBar";
+// import SidebarChat from "./SidebarChat";
 import CircularProgress from "@material-ui/core/CircularProgress";
 //importing material-ui-icons
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
@@ -15,6 +15,9 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import "./Drawer2.css";
 import SidebarUserList from "./SiderbarUserList";
 // import "./Sidebar.css";
+
+const SearchBar = React.lazy(() => import("../shared/SearchBar"));
+const SidebarChat = React.lazy(() => import("./SidebarChat"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,76 +56,78 @@ function Drawer2({
   };
 
   return (
-    <div>
-      <Drawer
-        anchor="left"
-        variant="persistent"
-        open={drawer2}
-        classes={{ paper: classes.drawerPaper }}
-      >
-        <div className="drawerLeft__header">
-          <div className="drawerLeft__header_container">
-            <IconButton onClick={handleDrawerClose}>
-              <ArrowBackIcon />
-            </IconButton>
-            <p>Add User</p>
+    <React.Suspense fallback={<p>Loading</p>}>
+      <div>
+        <Drawer
+          anchor="left"
+          variant="persistent"
+          open={drawer2}
+          classes={{ paper: classes.drawerPaper }}
+        >
+          <div className="drawerLeft__header">
+            <div className="drawerLeft__header_container">
+              <IconButton onClick={handleDrawerClose}>
+                <ArrowBackIcon />
+              </IconButton>
+              <p>Add User</p>
+            </div>
           </div>
-        </div>
-        <div className="drawerLeft__content">
-          <SearchBar
-            search={search}
-            setSearch={setSearch}
-            placeholder="Search or start new chat"
-          />
-          <div className="drawerLeft__not">
-            <span>Select or Search for your new friends here at Tattle.</span>
-          </div>
-          <div className="sidebar__chats">
-            {loading === false ? (
-              <>
-                {search ? (
-                  <>
-                    <div>
+          <div className="drawerLeft__content">
+            <SearchBar
+              search={search}
+              setSearch={setSearch}
+              placeholder="Search or start new chat"
+            />
+            <div className="drawerLeft__not">
+              <span>Select or Search for your new friends here at Tattle.</span>
+            </div>
+            <div className="sidebar__chats">
+              {loading === false ? (
+                <>
+                  {search ? (
+                    <>
+                      <div>
+                        {userData ? (
+                          userData
+                            .filter(findUser(search))
+                            .map((user) => <SidebarUserList data={user} />)
+                        ) : (
+                          <div className="sidebar__chatsContainer_empty">
+                            <span>No Users searched found</span>
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
                       {userData ? (
-                        userData
-                          .filter(findUser(search))
-                          .map((user) => <SidebarUserList data={user} />)
+                        userData.map((user) => <SidebarUserList data={user} />)
                       ) : (
                         <div className="sidebar__chatsContainer_empty">
-                          <span>No Users searched found</span>
+                          <span>No Users found</span>
                         </div>
                       )}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    {userData ? (
-                      userData.map((user) => <SidebarUserList data={user} />)
-                    ) : (
-                      <div className="sidebar__chatsContainer_empty">
-                        <span>No Users found</span>
-                      </div>
-                    )}
-                  </>
-                )}
-              </>
-            ) : (
-              <div className="sidebar__chatsContainer_loading">
-                <div>
-                  <CircularProgress />
+                    </>
+                  )}
+                </>
+              ) : (
+                <div className="sidebar__chatsContainer_loading">
+                  <div>
+                    <CircularProgress />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {noRooms && loading ? (
-              <div className="sidebar__chatsContainer_empty">
-                <span>No chats</span>
-              </div>
-            ) : null}
+              {noRooms && loading ? (
+                <div className="sidebar__chatsContainer_empty">
+                  <span>No chats</span>
+                </div>
+              ) : null}
+            </div>
           </div>
-        </div>
-      </Drawer>
-    </div>
+        </Drawer>
+      </div>
+    </React.Suspense>
   );
 }
 

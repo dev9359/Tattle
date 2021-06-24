@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useStateValue } from "../StateProvider";
 //importing components
-import DropdownMenu from "../shared/DropdownMenu";
+// import DropdownMenu from "../shared/DropdownMenu";
 import { toastInfo } from "../shared/toastInfo";
-import DialogCustom from "../shared/DialogCustom";
+// import DialogCustom from "../shared/DialogCustom";
 //importing material-ui
 import Zoom from "@material-ui/core/Zoom";
 import Drawer from "@material-ui/core/Drawer";
@@ -22,6 +22,8 @@ import CheckIcon from "@material-ui/icons/Check";
 //importing styles
 import "./DrawerLeft.css";
 
+const DropdownMenu = React.lazy(() => import("../shared/DropdownMenu"));
+const DialogCustom = React.lazy(() => import("../shared/DialogCustom"));
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -241,137 +243,142 @@ function DrawerLeft({ drawerLeft, setDrawerLeft, db, auth, storage }) {
   ];
 
   return (
-    <div>
-      <Drawer
-        anchor="left"
-        variant="persistent"
-        open={drawerLeft}
-        classes={{ paper: classes.drawerPaper }}
-      >
-        <div className="drawerLeft__header">
-          <div className="drawerLeft__header_container">
-            <IconButton onClick={handleDrawerClose}>
-              <ArrowBackIcon />
-            </IconButton>
-            <p>Profile</p>
+    <React.Suspense fallback={<p>Loading</p>}>
+      <div>
+        <Drawer
+          anchor="left"
+          variant="persistent"
+          open={drawerLeft}
+          classes={{ paper: classes.drawerPaper }}
+        >
+          <div className="drawerLeft__header">
+            <div className="drawerLeft__header_container">
+              <IconButton onClick={handleDrawerClose}>
+                <ArrowBackIcon />
+              </IconButton>
+              <p>Profile</p>
+            </div>
           </div>
-        </div>
 
-        <div className="drawerLeft__content">
-          <div className="drawerLeft__content_photo">
-            <div className="profilePhoto">
-              <Zoom
-                in={drawerLeft}
-                style={{ transitionDelay: drawerLeft ? "300ms" : "0ms" }}
-              >
-                {photo ? (
-                  <Avatar src={photo} className="profilePhoto__layer_bottom" />
-                ) : (
-                  <Avatar />
-                )}
-              </Zoom>
-              <div
-                className="profilePhoto__layer_top"
-                onClick={handleProfileMenu}
-              >
-                <div className="profilePhoto__text">
-                  <PhotoCameraIcon />
-                  <p>CHANGE</p>
-                  <p>PROFILE PHOTO</p>
+          <div className="drawerLeft__content">
+            <div className="drawerLeft__content_photo">
+              <div className="profilePhoto">
+                <Zoom
+                  in={drawerLeft}
+                  style={{ transitionDelay: drawerLeft ? "300ms" : "0ms" }}
+                >
+                  {photo ? (
+                    <Avatar
+                      src={photo}
+                      className="profilePhoto__layer_bottom"
+                    />
+                  ) : (
+                    <Avatar />
+                  )}
+                </Zoom>
+                <div
+                  className="profilePhoto__layer_top"
+                  onClick={handleProfileMenu}
+                >
+                  <div className="profilePhoto__text">
+                    <PhotoCameraIcon />
+                    <p>CHANGE</p>
+                    <p>PROFILE PHOTO</p>
+                  </div>
                 </div>
               </div>
+
+              <DropdownMenu
+                menuLists={menuLists}
+                menu={menuProfile}
+                handleMenuClose={handleProfileMenuClose}
+              />
+
+              <DialogCustom
+                open={showProfilePhoto}
+                close={viewPhotoClose}
+                photo={photo}
+                user={user}
+              />
             </div>
 
-            <DropdownMenu
-              menuLists={menuLists}
-              menu={menuProfile}
-              handleMenuClose={handleProfileMenuClose}
-            />
+            <div className="profileMenu__diaglog">
+              <Dialog
+                open={showDialogUpload}
+                onClose={handleDialogUploadClose}
+                aria-labelledby="form-dialog-title"
+              >
+                <DialogTitle id="form-dialog-title-drawerLeft">
+                  Upload Photo
+                </DialogTitle>
+                <DialogContent id="form-dialog-content">
+                  <div className="profileMenu__uploadPhoto_dialog">
+                    <img src={uploadPhotoLink} alt="" />
+                  </div>
+                </DialogContent>
+                <DialogActions>
+                  <div className="profileMenu_uploadPhoto_iconButton">
+                    <IconButton onClick={handleUploadPhoto}>
+                      <CheckIcon />
+                    </IconButton>
+                  </div>
+                </DialogActions>
+              </Dialog>
+            </div>
 
-            <DialogCustom
-              open={showProfilePhoto}
-              close={viewPhotoClose}
-              photo={photo}
-              user={user}
-            />
-          </div>
+            <div className="drawerLeft__content_name">
+              <p>Your Name</p>
+              <form>
+                {showEditName ? (
+                  <>
+                    <input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      type="text"
+                      styles={{ borderBottom: "1px solid green !important" }}
+                    />
+                    <CheckIcon onClick={updateName} />
+                  </>
+                ) : (
+                  <>
+                    <span>{name}</span>
+                    <EditIcon onClick={editName} />
+                  </>
+                )}
+              </form>
+            </div>
 
-          <div className="profileMenu__diaglog">
-            <Dialog
-              open={showDialogUpload}
-              onClose={handleDialogUploadClose}
-              aria-labelledby="form-dialog-title"
-            >
-              <DialogTitle id="form-dialog-title-drawerLeft">
-                Upload Photo
-              </DialogTitle>
-              <DialogContent id="form-dialog-content">
-                <div className="profileMenu__uploadPhoto_dialog">
-                  <img src={uploadPhotoLink} alt="" />
-                </div>
-              </DialogContent>
-              <DialogActions>
-                <div className="profileMenu_uploadPhoto_iconButton">
-                  <IconButton onClick={handleUploadPhoto}>
-                    <CheckIcon />
-                  </IconButton>
-                </div>
-              </DialogActions>
-            </Dialog>
-          </div>
+            <div className="drawerLeft__note">
+              <span>
+                This is not your username or pin. This name will be visible to
+                your Tattle contacts.
+              </span>
+            </div>
 
-          <div className="drawerLeft__content_name">
-            <p>Your Name</p>
-            <form>
-              {showEditName ? (
-                <>
-                  <input
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    type="text"
-                    styles={{ borderBottom: "1px solid green !important" }}
-                  />
-                  <CheckIcon onClick={updateName} />
-                </>
-              ) : (
-                <>
-                  <span>{name}</span>
-                  <EditIcon onClick={editName} />
-                </>
-              )}
-            </form>
+            <div className="drawerLeft__content_name">
+              <p>About</p>
+              <form>
+                {showEditAbout ? (
+                  <>
+                    <input
+                      value={about}
+                      onChange={(e) => setAbout(e.target.value)}
+                      type="text"
+                    />
+                    <CheckIcon onClick={updateAbout} />
+                  </>
+                ) : (
+                  <>
+                    <span>{about}</span>
+                    <EditIcon onClick={editAbout} />
+                  </>
+                )}
+              </form>
+            </div>
           </div>
-
-          <div className="drawerLeft__note">
-            <span>
-              This is not your username or pin. This name will be visible to
-              your Tattle contacts.
-            </span>
-          </div>
-
-          <div className="drawerLeft__content_name">
-            <p>About</p>
-            <form>
-              {showEditAbout ? (
-                <>
-                  <input
-                    value={about}
-                    onChange={(e) => setAbout(e.target.value)}
-                    type="text"
-                  />
-                  <CheckIcon onClick={updateAbout} />
-                </>
-              ) : (
-                <>
-                  <span>{about}</span>
-                  <EditIcon onClick={editAbout} />
-                </>
-              )}
-            </form>
-          </div>
-        </div>
-      </Drawer>
-    </div>
+        </Drawer>
+      </div>
+    </React.Suspense>
   );
 }
 

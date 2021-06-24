@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useStateValue } from "../StateProvider";
 import { toastInfo } from "../shared/toastInfo";
 //importing components
-import DrawerBottom from "./DrawerBottom";
-import TooltipCustom from "../shared/TooltipCustom";
 import { Picker } from "emoji-mart";
 //importing material-ui
 import Hidden from "@material-ui/core/Hidden";
@@ -27,6 +25,8 @@ import "./ChatFooter.css";
 import * as s from "./preview.style";
 import CryptoJS from "crypto-js";
 
+const DrawerBottom = React.lazy(() => import("./DrawerBottom"));
+const TooltipCustom = React.lazy(() => import("../shared/TooltipCustom"));
 const attachFileLists = [
   {
     title: "Room",
@@ -351,115 +351,120 @@ function ChatFooter({ roomName, roomId, db, firebase, storage }) {
   };
 
   return (
-    <s.chatfooter_height drawerBottom={drawerBottom} className="chat__footer">
-      <DrawerBottom
-        drawerBottom={drawerBottom}
-        setDrawerBottom={setDrawerBottom}
-        fileVideoUrl={fileVideoUrl}
-        fileImageUrl={fileImageUrl}
-        setFileImageUrl={setFileImageUrl}
-        setFileVideoUrl={setFileVideoUrl}
-        roomId={roomId}
-        db={db}
-        firebase={firebase}
-        storage={storage}
-      />
+    <React.Suspense fallback={<p>Loading</p>}>
+      <s.chatfooter_height drawerBottom={drawerBottom} className="chat__footer">
+        <DrawerBottom
+          drawerBottom={drawerBottom}
+          setDrawerBottom={setDrawerBottom}
+          fileVideoUrl={fileVideoUrl}
+          fileImageUrl={fileImageUrl}
+          setFileImageUrl={setFileImageUrl}
+          setFileVideoUrl={setFileVideoUrl}
+          roomId={roomId}
+          db={db}
+          firebase={firebase}
+          storage={storage}
+        />
 
-      {emoji ? (
-        <Hidden only={["xs"]}>
-          <TooltipCustom
-            name="Close"
-            icon={<CloseIcon style={{ color: "#de5751" }} />}
-            onClick={() => handleEmoticonsClose()}
-          />
-        </Hidden>
-      ) : null}
-
-      <TooltipCustom
-        name="Emoticons"
-        icon={<InsertEmoticonIcon style={{ color: "#de5751" }} />}
-        onClick={() => handleEmoticons()}
-      />
-
-      {emoji ? (
-        <>
+        {emoji ? (
           <Hidden only={["xs"]}>
-            <Picker onSelect={addEmoji} />
+            <TooltipCustom
+              name="Close"
+              icon={<CloseIcon style={{ color: "#de5751" }} />}
+              onClick={() => handleEmoticonsClose()}
+            />
           </Hidden>
-          <Hidden smUp>
-            <ClickAwayListener onClickAway={handleEmoticonsClose}>
-              <Picker onSelect={addEmoji} />
-            </ClickAwayListener>
-          </Hidden>
-        </>
-      ) : null}
-
-      <div>
-        <TooltipCustom
-          name="Attach"
-          icon={<AttachFileIcon style={{ color: "#de5751" }} />}
-          onClick={attachFile}
-        />
-        {showAttachFile ? (
-          <ClickAwayListener onClickAway={handleClickAway}>
-            <div className="chat__attachFile">
-              {attachFileLists.map((attachFileList) => (
-                <Slide
-                  key={attachFileList.id}
-                  direction="up"
-                  in={attachFile}
-                  mountOnEnter
-                  unmountOnExit
-                >
-                  <Tooltip
-                    title={
-                      <span
-                        style={{ fontSize: "14px", padding: "8px 5px 8px 5px" }}
-                      >
-                        {attachFileList.title}
-                      </span>
-                    }
-                    placement="left"
-                  >
-                    <Fab color="primary" aria-label="person">
-                      <div className="chat__icon">
-                        <label htmlFor="file-input">
-                          {attachFileList.icon}
-                        </label>
-                        <input
-                          id="file-input"
-                          type="file"
-                          onChange={onFileChange}
-                          accept="image/*,video/mp4,video/3gpp,video/quicktime"
-                        />
-                      </div>
-                    </Fab>
-                  </Tooltip>
-                </Slide>
-              ))}
-            </div>
-          </ClickAwayListener>
         ) : null}
-      </div>
 
-      <form>
-        <textarea
-          required
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type a message"
-          type="text"
-          rows="1"
-          onKeyDown={onEnterPress}
+        <TooltipCustom
+          name="Emoticons"
+          icon={<InsertEmoticonIcon style={{ color: "#de5751" }} />}
+          onClick={() => handleEmoticons()}
         />
-      </form>
 
-      <TooltipCustom
-        name="Send Message"
-        icon={<SendIcon style={{ color: "#de5751" }} />}
-        onClick={onSubmit}
-      />
-    </s.chatfooter_height>
+        {emoji ? (
+          <>
+            <Hidden only={["xs"]}>
+              <Picker onSelect={addEmoji} />
+            </Hidden>
+            <Hidden smUp>
+              <ClickAwayListener onClickAway={handleEmoticonsClose}>
+                <Picker onSelect={addEmoji} />
+              </ClickAwayListener>
+            </Hidden>
+          </>
+        ) : null}
+
+        <div>
+          <TooltipCustom
+            name="Attach"
+            icon={<AttachFileIcon style={{ color: "#de5751" }} />}
+            onClick={attachFile}
+          />
+          {showAttachFile ? (
+            <ClickAwayListener onClickAway={handleClickAway}>
+              <div className="chat__attachFile">
+                {attachFileLists.map((attachFileList) => (
+                  <Slide
+                    key={attachFileList.id}
+                    direction="up"
+                    in={attachFile}
+                    mountOnEnter
+                    unmountOnExit
+                  >
+                    <Tooltip
+                      title={
+                        <span
+                          style={{
+                            fontSize: "14px",
+                            padding: "8px 5px 8px 5px",
+                          }}
+                        >
+                          {attachFileList.title}
+                        </span>
+                      }
+                      placement="left"
+                    >
+                      <Fab color="primary" aria-label="person">
+                        <div className="chat__icon">
+                          <label htmlFor="file-input">
+                            {attachFileList.icon}
+                          </label>
+                          <input
+                            id="file-input"
+                            type="file"
+                            onChange={onFileChange}
+                            accept="image/*,video/mp4,video/3gpp,video/quicktime"
+                          />
+                        </div>
+                      </Fab>
+                    </Tooltip>
+                  </Slide>
+                ))}
+              </div>
+            </ClickAwayListener>
+          ) : null}
+        </div>
+
+        <form>
+          <textarea
+            required
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type a message"
+            type="text"
+            rows="1"
+            onKeyDown={onEnterPress}
+          />
+        </form>
+
+        <TooltipCustom
+          name="Send Message"
+          icon={<SendIcon style={{ color: "#de5751" }} />}
+          onClick={onSubmit}
+        />
+      </s.chatfooter_height>
+    </React.Suspense>
   );
 }
 

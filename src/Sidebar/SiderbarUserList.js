@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
-import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import VideocamIcon from "@material-ui/icons/Videocam";
-import db from "../firebase";
+// import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
+// import VideocamIcon from "@material-ui/icons/Videocam";
+// import db from "../firebase";
 import "./SidebarChat.css";
 // console.log(use.uid);
 

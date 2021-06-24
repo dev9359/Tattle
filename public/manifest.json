@@ -1,9 +1,9 @@
 {
-  "app_name": "Tattle",
+  "name": "Tattle",
   "short_name": "Tattle",
   "theme_color": "#3a3e4a",
-  "background_color": "#ffffff",
-  "display": "fullscreen",
+  "background_color": "#3a3e4a",
+  "display": "standalone",
   "scope":"/",
   "start_url": "/",
   "description": "Tattle is driven by a fascination for communication technology that was once viewed as a passing trend.",

@@ -34,26 +34,28 @@ function SidebarChat({ id, name }) {
     return data ? decryptedData : data;
   };
   return (
-    <Link to={`/rooms/${id}`} className="sidebarChat__link">
-      <div className="sidebarChat">
-        <Avatar>{name[0]}</Avatar>
-        <div className="sidebarChat__info">
-          <h2>{name}</h2>
-          {messages[0]?.photo ? (
-            <div className="sideChat__photo">
-              <PhotoCameraIcon /> <span>Photo</span>
-            </div>
-          ) : null}
-          {messages[0]?.video ? (
-            <div className="sideChat__photo">
-              <VideocamIcon /> <span>Video</span>
-            </div>
-          ) : null}
-          <p>{messages[0]?.message ? decrypt(messages[0]?.message) : ""}</p>
-          <p>{messages[0]?.url}</p>
+    <React.Suspense fallback={<p>Loading</p>}>
+      <Link to={`/rooms/${id}`} className="sidebarChat__link">
+        <div className="sidebarChat">
+          <Avatar>{name[0]}</Avatar>
+          <div className="sidebarChat__info">
+            <h2>{name}</h2>
+            {messages[0]?.photo ? (
+              <div className="sideChat__photo">
+                <PhotoCameraIcon /> <span>Photo</span>
+              </div>
+            ) : null}
+            {messages[0]?.video ? (
+              <div className="sideChat__photo">
+                <VideocamIcon /> <span>Video</span>
+              </div>
+            ) : null}
+            <p>{messages[0]?.message ? decrypt(messages[0]?.message) : ""}</p>
+            <p>{messages[0]?.url}</p>
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </React.Suspense>
   );
 }
 
