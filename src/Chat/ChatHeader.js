@@ -152,7 +152,7 @@ function ChatHeader({
   const deleteRoom = () => {
     const roomDeleted = "roomDeleted";
 
-    if (roomOwner === user.uid || role === "admin") {
+    if (roomOwner === user.uid || user.role === "admin") {
       db.collection("rooms")
         .doc(roomId)
         .delete()

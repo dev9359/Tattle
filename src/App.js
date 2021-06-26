@@ -64,12 +64,14 @@ function App() {
           db.collection("users")
             .doc(authUser.uid)
             .set({
+              uid: authUser.uid,
               name: anonymousName,
               about: "Hey there! I am using Tattle.",
               photoURL: "https://avatars.dicebear.com/api/human/ugtjh.svg",
               role: "anonymous",
               email: anonymousName + "@anonymous.com",
               dateJoined: firebase.firestore.FieldValue.serverTimestamp(),
+              rooms: [],
             })
             .then(function () {
               console.log("Document successfully updated!");
@@ -94,12 +96,14 @@ function App() {
                 // console.log("USER EXIST");
               } else {
                 db.collection("users").doc(authUser.uid).set({
+                  uid: authUser.uid,
                   name: authUser.displayName,
                   about: "Hey there! I am using Tattle.",
                   photoURL: user.photoURL,
                   role: "regular",
                   email: authUser.email,
                   dateJoined: firebase.firestore.FieldValue.serverTimestamp(),
+                  rooms: [],
                 });
               }
             })
@@ -120,12 +124,14 @@ function App() {
                 console.log("USER EXIST");
               } else {
                 db.collection("users").doc(authUser.uid).set({
+                  uid: authUser.uid,
                   name: authUser.displayName,
                   about: "Hey there! I am using Tattle.",
                   photoURL: "",
                   role: "regular",
                   email: authUser.email,
                   dateJoined: firebase.firestore.FieldValue.serverTimestamp(),
+                  rooms: [],
                 });
               }
             })

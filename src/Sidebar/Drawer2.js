@@ -1,23 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
-// import { useStateValue } from "../StateProvider";
+import React, { useState } from "react";
 //importing components
 //importing material-ui
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
-// import SearchBar from "../shared/SearchBar";
-// import SidebarChat from "./SidebarChat";
 import CircularProgress from "@material-ui/core/CircularProgress";
 //importing material-ui-icons
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 //importing styles
 import "./Drawer2.css";
 import SidebarUserList from "./SiderbarUserList";
-// import "./Sidebar.css";
 
 const SearchBar = React.lazy(() => import("../shared/SearchBar"));
-const SidebarChat = React.lazy(() => import("./SidebarChat"));
+// const SidebarChat = React.lazy(() => import("./SidebarChat"));
 
 const useStyles = makeStyles((theme) => ({
   root: {

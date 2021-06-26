@@ -5,7 +5,6 @@ import { useStateValue } from "../StateProvider";
 import db from "../firebase";
 import { auth, storage } from "../firebase";
 //importing components
-
 import { toastInfo } from "../shared/toastInfo";
 //importing material-ui
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -13,7 +12,6 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 //importing styles
 import "./Sidebar.css";
 
-// const db = React.lazy(() => import("../firebase"));
 const UserAvatar = React.lazy(() => import("./UserAvatar"));
 const ChatIcon = React.lazy(() => import("@material-ui/icons/Chat"));
 const DropdownMenu = React.lazy(() => import("../shared/DropdownMenu"));
@@ -238,6 +236,7 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
                         <SidebarChat
                           key={room.id}
                           id={room.id}
+                          data={room}
                           name={room.data.name}
                         />
                       ))}
@@ -254,6 +253,7 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
                     <SidebarChat
                       key={room.id}
                       id={room.id}
+                      data={room}
                       name={room.data.name}
                       owner={room.data.roomOwner}
                     />

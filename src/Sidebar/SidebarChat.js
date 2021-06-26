@@ -5,14 +5,35 @@ import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import db from "../firebase";
 import "./SidebarChat.css";
+import { useStateValue } from "../StateProvider";
 // console.log(use.uid);
 
 const CryptoJS = require("crypto-js");
-function SidebarChat({ id, name }) {
+function SidebarChat({ id, name, data }) {
   const [messages, setMessages] = useState([]);
+  const [{ user }] = useStateValue();
+  // const { participants } = data;
+
+  const [chatUser, setChatUser] = useState(null);
+
+  const fetchuserbyID = () => {
+    if (data.data.participants?.includes(user.uid)) {
+      data.data.participants?.splice(
+        data.data.participants.indexOf(user.uid, 1)
+      );
+      db.collection("users")
+        .doc(data.data.participants[0])
+        .get()
+        .then((snapshot) => {
+          setChatUser(snapshot.data());
+        });
+      // console.log(chatUser);
+    }
+  };
 
   useEffect(() => {
     fetchRooms();
+    fetchuserbyID();
   }, [id]);
 
   const fetchRooms = () => {
@@ -37,9 +58,9 @@ function SidebarChat({ id, name }) {
     <React.Suspense fallback={<p>Loading</p>}>
       <Link to={`/rooms/${id}`} className="sidebarChat__link">
         <div className="sidebarChat">
-          <Avatar>{name[0]}</Avatar>
+          <Avatar src={chatUser?.photoURL}></Avatar>
           <div className="sidebarChat__info">
-            <h2>{name}</h2>
+            <h2>{chatUser?.name}</h2>
             {messages[0]?.photo ? (
               <div className="sideChat__photo">
                 <PhotoCameraIcon /> <span>Photo</span>
