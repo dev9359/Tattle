@@ -12,6 +12,8 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 //importing styles
 import "./Sidebar.css";
 
+const use = auth.currentUser;
+console.log(use.uid);
 const UserAvatar = React.lazy(() => import("./UserAvatar"));
 const ChatIcon = React.lazy(() => import("@material-ui/icons/Chat"));
 const DropdownMenu = React.lazy(() => import("../shared/DropdownMenu"));
@@ -20,6 +22,7 @@ const Drawer2 = React.lazy(() => import("./Drawer2"));
 const SearchBar = React.lazy(() => import("../shared/SearchBar"));
 const SidebarChat = React.lazy(() => import("./SidebarChat"));
 const TooltipCustom = React.lazy(() => import("../shared/TooltipCustom"));
+
 function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
   const history = useHistory();
   const { roomId } = useParams();
@@ -92,7 +95,7 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
 
   useEffect(() => {
     fetchUser();
-  }, [userData]);
+  }, []);
 
   const fetchUser = () => {
     db.collection("users").onSnapshot((snapshot) =>
@@ -236,8 +239,9 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
                         <SidebarChat
                           key={room.id}
                           id={room.id}
-                          data={room}
+                          data={room.data}
                           name={room.data.name}
+                          owner={room.data.roomOwner}
                         />
                       ))}
                     </div>
@@ -253,7 +257,7 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
                     <SidebarChat
                       key={room.id}
                       id={room.id}
-                      data={room}
+                      data={room.data}
                       name={room.data.name}
                       owner={room.data.roomOwner}
                     />

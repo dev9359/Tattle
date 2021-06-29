@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useStateValue } from "../StateProvider";
 //importing components
-// import DropdownMenu from "../shared/DropdownMenu";
 import { toastInfo } from "../shared/toastInfo";
-// import DialogCustom from "../shared/DialogCustom";
 //importing material-ui
 import Zoom from "@material-ui/core/Zoom";
 import Drawer from "@material-ui/core/Drawer";
@@ -223,22 +221,18 @@ function DrawerLeft({ drawerLeft, setDrawerLeft, db, auth, storage }) {
     {
       title: "View Photo",
       onClick: () => viewPhoto(),
-      id: Math.random() * 100000,
     },
     {
       title: "Take photo",
       onClick: () => takePhoto(),
-      id: Math.random() * 100000,
     },
     {
       title: uploadPhoto(),
       onClick: () => handleUploadPhoto(),
-      id: Math.random() * 100000,
     },
     {
       title: "Removed photo",
       onClick: () => removedPhoto(),
-      id: Math.random() * 100000,
     },
   ];
 

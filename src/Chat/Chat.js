@@ -24,8 +24,10 @@ function Chat({ isRoomExist }) {
   const [roomCreatedBy, setRoomCreatedBy] = useState("");
   const [roomOwner, setRoomOwner] = useState("");
   const [messages, setMessages] = useState([]);
+  const [messagesId, setMessagesId] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showLandingScreenPhoto, setShowLandingScreenPhoto] = useState(false);
+  const [chatUser, setChatUser] = useState(null);
 
   useEffect(() => {
     if (roomId) {
@@ -36,6 +38,7 @@ function Chat({ isRoomExist }) {
           setRoomCreatedBy(doc.data()?.createdBy);
           setRoomOwner(doc.data()?.roomOwner);
           set_RoomId(doc.data()?.id);
+          fetchuserbyID(doc.data());
         });
 
       db.collection("rooms")
@@ -43,6 +46,7 @@ function Chat({ isRoomExist }) {
         .collection("messages")
         .orderBy("timestamp", "asc")
         .onSnapshot(function (doc) {
+          setMessagesId(doc.id);
           setMessages(doc.docs.map((doc) => doc.data()));
           setLoading(true);
         });
@@ -53,6 +57,20 @@ function Chat({ isRoomExist }) {
       history.push("/");
     }
   }, [roomId, history]);
+
+  const fetchuserbyID = (data) => {
+    if (data.participants?.includes(user.uid)) {
+      const other = data.participants?.splice(
+        data.participants.indexOf(user.uid, 1)
+      );
+      db.collection("users")
+        .doc(other[0])
+        .get()
+        .then((snapshot) => {
+          setChatUser(snapshot.data());
+        });
+    }
+  };
 
   return (
     <React.Suspense fallback={<p>Loading</p>}>
@@ -66,8 +84,10 @@ function Chat({ isRoomExist }) {
                 roomName={roomName}
                 roomId={roomId}
                 _roomId={_roomId}
+                messagesId={messagesId}
                 messages={messages}
                 db={db}
+                chatUser={chatUser}
                 history={history}
                 isRoomExist={isRoomExist}
               />

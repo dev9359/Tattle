@@ -36,9 +36,6 @@ function DrawerRightSearch({
     // return decryptedData
     return data ? decryptedData : data;
   };
-  const encrypt = (data) => {
-    const text = CryptoJS.AES.encrypt(data, "my-secret-key@123").toString();
-  };
   useEffect(() => {
     const messageResult = () => {
       return (

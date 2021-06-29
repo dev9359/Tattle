@@ -3,17 +3,14 @@ import { Link } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import { useStateValue } from "../StateProvider";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
-// import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-// import VideocamIcon from "@material-ui/icons/Videocam";
 import db from "../firebase";
 import "./SiderbarUserList.css";
 import { firebase } from "../firebase";
-// console.log(use.uid);
+
 const TooltipCustom = React.lazy(() => import("../shared/TooltipCustom"));
 function SidebarUserList({ data }) {
   const [{ user }] = useStateValue();
 
-  // console.log(user);
   const createChat = (e) => {
     e.preventDefault();
 
@@ -32,13 +29,21 @@ function SidebarUserList({ data }) {
           },
           { merge: true }
         );
+        db.collection("users")
+          .doc(user.uid)
+          .get()
+          .then((snapshot) => {
+            const userRooms = snapshot.data().rooms;
+            userRooms.push(docRef.id);
+            db.collection("users").doc(user.uid).update({ rooms: userRooms });
+          });
       })
       .catch(function (error) {
         console.error("Error adding document: ", error);
       });
   };
   return (
-    <Link to="" className="sidebarChat__link">
+    <Link to="/" className="sidebarChat__link">
       <div className="sidebarChat">
         <Avatar src={data.photoURL}></Avatar>
         <div className="sidebarChat__info">

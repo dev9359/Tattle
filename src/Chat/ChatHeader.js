@@ -28,7 +28,10 @@ function ChatHeader({
   roomName,
   roomId,
   _roomId,
+  messagesId,
+  name,
   messages,
+  chatUser,
   db,
   history,
   isRoomExist,
@@ -140,19 +143,51 @@ function ChatHeader({
     );
   };
 
+  // const clearMessages = () => {
+  //   const clearMessages = "clearMessages";
+  //   toastInfo(
+  //     "Clear Messages is not yet available!",
+  //     clearMessages,
+  //     "top-center"
+  //   );
+  // };
+
   const clearMessages = () => {
     const clearMessages = "clearMessages";
-    toastInfo(
-      "Clear Messages is not yet available!",
-      clearMessages,
-      "top-center"
-    );
+
+    if (roomOwner === user.uid) {
+      db.collection("rooms")
+        .doc(roomId)
+        .collection("messages")
+        .delete()
+        .then(function () {
+          toastInfo(
+            "Messages successfully deleted!",
+            clearMessages,
+            "top-center"
+          );
+        })
+        .catch(function (error) {
+          toastInfo(
+            `Error removing messages! ${error}`,
+            clearMessages,
+            "top-center"
+          );
+        });
+      history.push("/");
+    } else {
+      toastInfo(
+        `You are not allowed to delete room ${roomName}. Only the room owner ${roomCreatedBy}`,
+        clearMessages,
+        "top-center"
+      );
+    }
   };
 
   const deleteRoom = () => {
     const roomDeleted = "roomDeleted";
 
-    if (roomOwner === user.uid || user.role === "admin") {
+    if (roomOwner === user.uid) {
       db.collection("rooms")
         .doc(roomId)
         .delete()
@@ -165,7 +200,7 @@ function ChatHeader({
       history.push("/");
     } else {
       toastInfo(
-        `You are not allowed to delete room ${roomName}. Only the admin or room owner ${roomCreatedBy}`,
+        `You are not allowed to delete room ${roomName}. Only the room owner ${roomCreatedBy}`,
         roomDeleted,
         "top-center"
       );
@@ -239,9 +274,10 @@ function ChatHeader({
           </Link>
         </Hidden>
 
-        <Avatar>{roomName[0]}</Avatar>
+        <Avatar src={chatUser ? chatUser?.photoURL : null}></Avatar>
+
         <div className="chat__headerInfo">
-          <h3>{roomName}</h3>
+          <h3>{chatUser ? chatUser.name : name}</h3>
 
           {isLastMessage ? (
             <>

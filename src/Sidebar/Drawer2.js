@@ -12,7 +12,6 @@ import "./Drawer2.css";
 import SidebarUserList from "./SiderbarUserList";
 
 const SearchBar = React.lazy(() => import("../shared/SearchBar"));
-// const SidebarChat = React.lazy(() => import("./SidebarChat"));
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -12,9 +12,6 @@ import { auth, firebase } from "./firebase";
 //importing actions
 import { setUser } from "./actions/userAction";
 //importing components
-// import Login from "./Login";
-// import Sidebar from "../src/Sidebar/Sidebar";
-// import Chat from "../src/Chat/Chat";
 import { ToastContainer } from "react-toastify";
 import { toastInfo } from "./shared/toastInfo";
 //importing material-ui
@@ -41,8 +38,9 @@ function App() {
         setLoading(true);
 
         db.collection("rooms")
-          .orderBy("timestamp", "desc")
-          .onSnapshot((snapshot) =>
+          .where("participants", "array-contains", authUser.uid)
+          .get()
+          .then((snapshot) =>
             setRooms(
               snapshot.docs.map((doc) => ({
                 id: doc.id,
