@@ -39,8 +39,7 @@ function App() {
 
         db.collection("rooms")
           .where("participants", "array-contains", authUser.uid)
-          .get()
-          .then((snapshot) =>
+          .onSnapshot((snapshot) =>
             setRooms(
               snapshot.docs.map((doc) => ({
                 id: doc.id,
@@ -69,7 +68,6 @@ function App() {
               role: "anonymous",
               email: anonymousName + "@anonymous.com",
               dateJoined: firebase.firestore.FieldValue.serverTimestamp(),
-              rooms: [],
             })
             .then(function () {
               console.log("Document successfully updated!");
@@ -101,7 +99,6 @@ function App() {
                   role: "regular",
                   email: authUser.email,
                   dateJoined: firebase.firestore.FieldValue.serverTimestamp(),
-                  rooms: [],
                 });
               }
             })
@@ -129,7 +126,6 @@ function App() {
                   role: "regular",
                   email: authUser.email,
                   dateJoined: firebase.firestore.FieldValue.serverTimestamp(),
-                  rooms: [],
                 });
               }
             })

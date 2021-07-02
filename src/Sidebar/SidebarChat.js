@@ -8,30 +8,12 @@ import "./SidebarChat.css";
 import CryptoJS from "crypto-js";
 import { useStateValue } from "../StateProvider";
 
-function SidebarChat({ id, name, data }) {
+function SidebarChat({ id, data }) {
   const [messages, setMessages] = useState([]);
   const [{ user }] = useStateValue();
-  const [chatUser, setChatUser] = useState(null);
+  const [chatUser, setChatUser] = useState("");
 
   useEffect(() => {
-    fetchRooms();
-  });
-
-  useEffect(() => {
-    if (data.participants?.includes(user.uid)) {
-      const other = data.participants?.splice(
-        data.participants.indexOf(user.uid, 1)
-      );
-      db.collection("users")
-        .doc(other[0])
-        .get()
-        .then((snapshot) => {
-          setChatUser(snapshot.data());
-        });
-    }
-  }, []);
-
-  const fetchRooms = () => {
     if (id) {
       db.collection("rooms")
         .doc(id)
@@ -41,7 +23,16 @@ function SidebarChat({ id, name, data }) {
           setMessages(snapshot.docs.map((doc) => doc.data()))
         );
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    const dev = data.participants.filter((userid) => userid !== user.uid);
+    db.collection("users")
+      .doc(dev[0])
+      .onSnapshot((snapshot) => {
+        setChatUser(snapshot.data());
+      });
+  }, []);
 
   const decrypt = (data) => {
     const bytes = CryptoJS.AES.decrypt(data, "my-secret-key@123");
@@ -53,9 +44,9 @@ function SidebarChat({ id, name, data }) {
     <React.Suspense fallback={<p>Loading</p>}>
       <Link to={`/rooms/${id}`} className="sidebarChat__link">
         <div className="sidebarChat">
-          <Avatar src={chatUser ? chatUser?.photoURL : null}></Avatar>
+          <Avatar src={chatUser?.photoURL}></Avatar>
           <div className="sidebarChat__info">
-            <h2>{chatUser ? chatUser.name : name}</h2>
+            <h2>{chatUser?.name}</h2>
             {messages[0]?.photo ? (
               <div className="sideChat__photo">
                 <PhotoCameraIcon /> <span>Photo</span>

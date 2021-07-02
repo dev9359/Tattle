@@ -24,6 +24,7 @@
   display: flex;
   flex-direction: column;
   overflow: scroll;
+  width: 100%;
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none;
   background-color: #ededed;
@@ -154,7 +155,7 @@
 .MuiDialogContent-root {
   margin: 0 auto;
   padding: 0 24px !important;
-  max-width: 545px;
+  max-width: 500px;
 }
 .MuiTypography-h6 {
   display: flex;
@@ -210,5 +211,9 @@
 @media screen and (max-width: 600px) {
   .MuiDialogContent-root {
     padding: 25px 24px !important;
+  }
+
+  .drawerLeft__content {
+    width: 100%;
   }
 }

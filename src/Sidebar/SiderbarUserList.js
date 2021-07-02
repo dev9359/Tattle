@@ -31,8 +31,7 @@ function SidebarUserList({ data }) {
         );
         db.collection("users")
           .doc(user.uid)
-          .get()
-          .then((snapshot) => {
+          .onSnapshot((snapshot) => {
             const userRooms = snapshot.data().rooms;
             userRooms.push(docRef.id);
             db.collection("users").doc(user.uid).update({ rooms: userRooms });

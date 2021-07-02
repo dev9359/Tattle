@@ -155,56 +155,39 @@ function ChatHeader({
   const clearMessages = () => {
     const clearMessages = "clearMessages";
 
-    if (roomOwner === user.uid) {
-      db.collection("rooms")
-        .doc(roomId)
-        .collection("messages")
-        .delete()
-        .then(function () {
-          toastInfo(
-            "Messages successfully deleted!",
-            clearMessages,
-            "top-center"
-          );
-        })
-        .catch(function (error) {
-          toastInfo(
-            `Error removing messages! ${error}`,
-            clearMessages,
-            "top-center"
-          );
-        });
-      history.push("/");
-    } else {
-      toastInfo(
-        `You are not allowed to delete room ${roomName}. Only the room owner ${roomCreatedBy}`,
-        clearMessages,
-        "top-center"
-      );
-    }
+    db.collection("rooms.messages")
+      .doc(messagesId)
+      // .collection("messages")
+      .delete()
+      .then(function () {
+        toastInfo(
+          "Messages successfully deleted!",
+          clearMessages,
+          "top-center"
+        );
+      })
+      .catch(function (error) {
+        toastInfo(
+          `Error removing messages! ${error}`,
+          clearMessages,
+          "top-center"
+        );
+      });
+    history.push("/");
   };
 
   const deleteRoom = () => {
     const roomDeleted = "roomDeleted";
-
-    if (roomOwner === user.uid) {
-      db.collection("rooms")
-        .doc(roomId)
-        .delete()
-        .then(function () {
-          toastInfo("Room successfully deleted!", roomDeleted, "top-center");
-        })
-        .catch(function (error) {
-          toastInfo(`Error removing room! ${error}`, roomDeleted, "top-center");
-        });
-      history.push("/");
-    } else {
-      toastInfo(
-        `You are not allowed to delete room ${roomName}. Only the room owner ${roomCreatedBy}`,
-        roomDeleted,
-        "top-center"
-      );
-    }
+    db.collection("rooms")
+      .doc(roomId)
+      .delete()
+      .then(function () {
+        toastInfo("Room successfully deleted!", roomDeleted, "top-center");
+      })
+      .catch(function (error) {
+        toastInfo(`Error removing room! ${error}`, roomDeleted, "top-center");
+      });
+    history.push("/");
   };
 
   const handleMenuClose = () => {

@@ -22,19 +22,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Drawer2({
-  drawer2,
-  setDrawer2,
-  rooms,
-  setIsRoomExist,
-  isRoomExist,
-  userData,
-}) {
+function Drawer2({ drawer2, setDrawer2, userData }) {
   const classes = useStyles();
 
   const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [noRooms, setNoRooms] = useState(false);
+  const [loading] = useState(false);
+  const [noRooms] = useState(false);
 
   const handleDrawerClose = () => {
     setDrawer2(false);

@@ -6,24 +6,25 @@ import db from "../firebase";
 import { auth, storage } from "../firebase";
 //importing components
 import { toastInfo } from "../shared/toastInfo";
+import SidebarChat from "./SidebarChat";
 //importing material-ui
 import CircularProgress from "@material-ui/core/CircularProgress";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 //importing styles
 import "./Sidebar.css";
 
-const use = auth.currentUser;
-console.log(use.uid);
+// const use = auth.currentUser;
+// console.log(use.uid);
 const UserAvatar = React.lazy(() => import("./UserAvatar"));
 const ChatIcon = React.lazy(() => import("@material-ui/icons/Chat"));
 const DropdownMenu = React.lazy(() => import("../shared/DropdownMenu"));
 const DrawerLeft = React.lazy(() => import("./DrawerLeft"));
 const Drawer2 = React.lazy(() => import("./Drawer2"));
 const SearchBar = React.lazy(() => import("../shared/SearchBar"));
-const SidebarChat = React.lazy(() => import("./SidebarChat"));
+// const SidebarChat = React.lazy(() => import("./SidebarChat"));
 const TooltipCustom = React.lazy(() => import("../shared/TooltipCustom"));
 
-function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
+function Sidebar({ rooms, setIsRoomExist, isRoomExist, fetchrooms }) {
   const history = useHistory();
   const { roomId } = useParams();
   const [{ user }] = useStateValue();
@@ -202,6 +203,7 @@ function Sidebar({ rooms, setIsRoomExist, isRoomExist }) {
               db={db}
               auth={auth}
               storage={storage}
+              fetchrooms={fetchrooms}
             />
             <TooltipCustom
               icon={<ChatIcon style={{ color: "#de5751" }} />}

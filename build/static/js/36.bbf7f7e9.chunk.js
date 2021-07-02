@@ -1,2 +1,0 @@
-(this.webpackJsonptattle=this.webpackJsonptattle||[]).push([[36],{297:function(t,e,a){"use strict";var l=a(96);Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0;var c=l(a(2)),h=(0,l(a(98)).default)(c.default.createElement("path",{d:"M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"}),"Chat");e.default=h}}]);
-//# sourceMappingURL=36.bbf7f7e9.chunk.js.map

@@ -50,27 +50,20 @@ function Chat({ isRoomExist }) {
           setMessages(doc.docs.map((doc) => doc.data()));
           setLoading(true);
         });
-
+      const fetchuserbyID = (data) => {
+        const dev = data.participants.filter((userid) => userid !== user.uid);
+        db.collection("users")
+          .doc(dev[0])
+          .onSnapshot((snapshot) => {
+            setChatUser(snapshot.data());
+          });
+      };
       setShowLandingScreenPhoto(false);
     } else {
       setShowLandingScreenPhoto(true);
       history.push("/");
     }
-  }, [roomId, history]);
-
-  const fetchuserbyID = (data) => {
-    if (data.participants?.includes(user.uid)) {
-      const other = data.participants?.splice(
-        data.participants.indexOf(user.uid, 1)
-      );
-      db.collection("users")
-        .doc(other[0])
-        .get()
-        .then((snapshot) => {
-          setChatUser(snapshot.data());
-        });
-    }
-  };
+  }, [roomId, history, user.uid]);
 
   return (
     <React.Suspense fallback={<p>Loading</p>}>

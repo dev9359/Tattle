@@ -1,0 +1,2 @@
+(this.webpackJsonptattle=this.webpackJsonptattle||[]).push([[32],{471:function(t,e,n){"use strict";n.r(e);var a=n(2),r=n.n(a),c=n(459);e.default=function(t){var e=t.photoURL,n=t.onClick;return r.a.createElement("div",{style:{cursor:"pointer"}},r.a.createElement(c.a,{src:e,onClick:n}))}}}]);
+//# sourceMappingURL=32.1875cc92.chunk.js.map
